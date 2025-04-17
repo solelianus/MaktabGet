@@ -177,3 +177,6 @@ pyrightconfig.json
 
 # data folder contain course
 data/
+
+# coockies for auth
+cookies.json

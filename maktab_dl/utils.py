@@ -91,15 +91,15 @@ def load_model_from_json(model_type: Type[T], filename: str) -> T:
 
 def sanitize_filename(filename, replacement="_"):
     """Replaces or removes characters that are not allowed in filenames, while preserving UTF-8."""
-    # # Replace spaces with underscores.
-    # filename = re.sub(r'\s+', replacement, filename)
-
     # Remove or replace problematic characters.
     filename = re.sub(r'[\\/:*?"<>|]', replacement, filename)
-
-    # remove leading and trailing underscores and points
-    # filename = filename.strip('_').strip('.')
-
+    
+    # Remove extra spaces and replace with single space
+    filename = re.sub(r'\s+', ' ', filename)
+    
+    # Remove leading and trailing spaces
+    filename = filename.strip()
+    
     # Limit to a maximum length for safety.
     max_length = 255  # Reasonable max for most file systems
     return filename[:max_length]

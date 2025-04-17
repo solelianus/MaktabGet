@@ -392,12 +392,10 @@ class MaktabkhoonehCrawler:
         course_link = course_info.link
         course_title = course_info.course.title
         chapters = course_info.chapters.chapters
-        course_directory = (
-            f"{self.output_path}{os.sep}{sanitize_filename(course_title)}"
-        )
+        course_directory = os.path.join(self.output_path, sanitize_filename(course_title))
         if not os.path.exists(course_directory):
             logging.info(f"Creating course directory: {course_directory}")
-            os.makedirs(course_directory)
+            os.makedirs(course_directory, exist_ok=True)
 
         for i, chapter in enumerate(chapters):
             logging.info(f"Processing chapter: {chapter.title}")
@@ -405,12 +403,13 @@ class MaktabkhoonehCrawler:
             chapter_slug = chapter.slug
             chapter_id = chapter.id
 
-            chapter_directory = (
-                f"{course_directory}{os.sep}{i + 1}_{sanitize_filename(chapter_title)}"
+            chapter_directory = os.path.join(
+                course_directory,
+                f"{i + 1}_{sanitize_filename(chapter_title)}"
             )
             if not os.path.exists(chapter_directory):
                 logging.info(f"Creating chapter directory: {chapter_directory}")
-                os.makedirs(chapter_directory)
+                os.makedirs(chapter_directory, exist_ok=True)
             chapter_url = f"{chapter_slug}-ch{chapter_id}"
             chpater_units = chapter.unit_set
             for j, unit in enumerate(chpater_units):
